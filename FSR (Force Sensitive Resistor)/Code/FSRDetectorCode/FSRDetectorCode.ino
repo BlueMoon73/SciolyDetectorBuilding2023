@@ -42,12 +42,10 @@ void loop() {
   turnOffAll();
   turnOnGreen();
   }
-  else if (fsrReading > highRange) {
+  else {
     turnOffAll();
     turnOnBlue; 
   }
-  
-  delay(1000); 
 
   
   
@@ -58,7 +56,9 @@ void loop() {
   fsrVoltage = fsrMVoltage / 1000.000; 
   Serial.print("Voltage reading in ");
   Serial.println(fsrVoltage);  
-  
+  Serial.print("Predicted Mass:"); 
+  Serial.println(predictMass(fsrVoltage)); 
+  delay(1500);
   
 }
 
@@ -76,5 +76,13 @@ void turnOffAll () {
   digitalWrite(redLED, LOW); 
   digitalWrite(greenLED, LOW); 
   digitalWrite(blueLED, LOW); 
+}
+
+float predictMass(float voltage) {
+
+//  return (pow(log(a * voltage * 1000), d))/b;
+return (pow(10, (0.43931823*voltage + 1.01804087))); 
+
+//return (pow(2.718, (2.254*voltage)-.2254)-1)/0.38;
 }
      
