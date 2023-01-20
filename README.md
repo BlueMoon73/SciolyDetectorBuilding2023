@@ -34,4 +34,3 @@ Official repository for all code and logs for the Science Olympiad Detector Buil
 
  - [Science Olympiad 2023 Season Rules](https://www.soinc.org/sites/default/files/2022-09/Science_Olympiad_Div_C_2023_Rules_Manual_Web.pdf)
  - [Repository for Wifi Lab](https://github.com/BlueMoon73/SciolyWifiLab2023/)
- - [
