@@ -4,8 +4,7 @@
 Official repository for all code and logs for the Science Olympiad Detector Building Device portion of event. 
 
 ## Event Description 
-###Teams will build a durable Mass/Force-sensing Device that will accurately measure and
-display both voltage and actual masses of different solid samples ranging from 30 to 1,000 grams.
+### Teams will build a durable Mass/Force-sensing Device that will accurately measure and display both voltage and actual masses of different solid samples ranging from 30 to 1,000 grams.
 
 
 ### Requirements for Design Log
