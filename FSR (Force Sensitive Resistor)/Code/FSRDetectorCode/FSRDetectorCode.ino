@@ -55,7 +55,7 @@ void loop() {
   fsrMVoltage = map(fsrReading, 0, 1023, 0, 5000);
   fsrVoltage = fsrMVoltage / 1000.000; 
   Serial.print("Voltage reading in ");
-  Serial.println(fsrVoltage);  
+  Serial.println(fsrVoltage, 4);  
   Serial.print("Predicted Mass:"); 
   Serial.println(predictMass(fsrVoltage)); 
   delay(1500);
