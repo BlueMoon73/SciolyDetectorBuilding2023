@@ -9,6 +9,9 @@ int fsrMVoltage;
 int lowRange = 300; 
 int highRange = 500; 
 float fsrVoltage; 
+int sum; 
+int loopNum; 
+int fsrAvgReading; 
 
 // setup function that runs once at the start of the code
 void setup() {
@@ -27,10 +30,19 @@ void setup() {
 void loop() {
   
 //   gets the fsr reading (0-1023)
-  fsrReading = analogRead(A1); 
-  Serial.println("=====================");   
-  Serial.print("Raw Reading:: ") ;
-  Serial.println(fsrReading);   
+  sum = 0 ;
+  loopNum = 10; 
+//  fsrReading = analogRead(A1); 
+
+  for (int i=0; i<loopNum; i++){
+    fsrReading = analogRead(A1); 
+    sum += fsrReading ;
+  }
+
+  fsrAvgReading = sum/loopNum;
+  Serial.println("=====================\n=====================");   
+  Serial.print("Raw Reading: ") ;
+  Serial.println(fsrAvgReading);   
 
   
 //  conditionals for determining LEDS to turn on.  
@@ -52,7 +64,7 @@ void loop() {
   
   //converting the fsr reading into millivolts  and printing 
  
-  fsrMVoltage = map(fsrReading, 0, 1023, 0, 5000);
+  fsrMVoltage = map(fsrAvgReading, 0, 1023, 0, 5000);
   fsrVoltage = fsrMVoltage / 1000.000; 
   Serial.print("Voltage reading in ");
   Serial.println(fsrVoltage, 4);  
