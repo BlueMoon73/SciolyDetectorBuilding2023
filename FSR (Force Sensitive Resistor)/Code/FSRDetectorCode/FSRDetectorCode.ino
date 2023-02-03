@@ -93,7 +93,7 @@ void turnOffAll () {
 float predictMass(float voltage) {
 
 //  return (pow(log(a * voltage * 1000), d))/b;
-return (pow(10, (0.43931823*voltage + 1.01804087))); 
+return pow(10, (0.3465*voltage + 1.283437)); 
 
 //return (pow(2.718, (2.254*voltage)-.2254)-1)/0.38;
 }
