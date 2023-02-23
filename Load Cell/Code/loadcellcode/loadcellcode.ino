@@ -1,68 +1,99 @@
+
+// importing the HX711 library 
 #include "HX711.h"
+
+// creates a HX771 object 
 HX711 loadcell;
 
-
-float  val = 0; 
-float analval = 0; 
+// declaring variables 
+float digitalVal = 0; 
+float analogVal = 0; 
 int DOUTpin = 3; 
 int SCKpin = 2; 
+char readingString[50]; 
 
+
+// loadcell 
 const long LOADCELL_OFFSET = 2;
 const long LOADCELL_DIVIDER = 2;
-char buf[50]; 
 
+
+ // function to run once at the start of the code 
 void setup(){
 
 
+// initializes loadcell with pins declared before 
   loadcell.begin(DOUTpin, SCKpin);
-  Serial.begin(38400);
+ 
+// initliazes serial monitor at 38400 baud rate 
+ Serial.begin(38400);
   pinMode(DOUTpin, INPUT); 
-//loadcell.set_scale(LOADCELL_DIVIDER);
 
- loadcell.set_scale(2280.f);                      // this value is obtained by calibrating the scale with known weights; see the README for details
+
+// set the scale and it's values 
+  loadcell.set_scale(2280.f);                      
   loadcell.tare();    
 }
 
 void loop(){
- val = digitalRead(DOUTpin); 
- analval = analogRead(DOUTpin);
+    
+ // reading the values from the DOUTpin on HX711
+ digitalVal = digitalRead(DOUTpin); 
+ analogVal = analogRead(DOUTpin);
+ 
+ // print the analog and digital values 
  Serial.print("Digital Val Reading"); 
- Serial.println( val); 
+ Serial.println(digitalVal); 
  Serial.print("Analog Val Reading "); 
  Serial.println(analval); 
+ 
+ // set a maximum timeout time, of 1 second 
  if (loadcell.wait_ready_timeout(1000)) {
+    
+    // print the average of 10 readings from the ADC minus tare weight 
     long reading = loadcell.get_units(10);
+    // this reading is a binary reaidng 
   
-  
-    sprintf(buf,"%lu",reading); 
-    Serial.print("Weight: ");
+    // convert the reading value (which is a long), into a string and stores it in the readingString variable 
+    sprintf(readingString,"%lu",reading); 
+    
+    // prints the reaidng value (the binary)
+    Serial.print("binary reading: ");
     Serial.println(reading);
 
-    int intReading = readBinaryString(buf);
-    Serial.print("weight2:"); 
+    // converting the binary value stored as a string, into a integer. 
+    int intReading = readBinaryString(readingString);
+    
+    // print out the integer readings, and the raw loadcell reading 
+    Serial.print("integer reading:"); 
     Serial.println(intReading); 
-       Serial.print("loadcell reading: " );
-  Serial.println(loadcell.read());   
-} else {
+    Serial.print("loadcell reading: " );
+    Serial.println(loadcell.read());   
+} 
+
+else { 
     Serial.println("HX711 not found.");
 }
-// Serial.print("read average: \t\t");
-//  Serial.println(loadcell.read_average(20));
-//
-//   Serial.print("read: \t\t");
-//  Serial.println(loadcell.read());       
- 
-  loadcell.power_down();             // put the ADC in sleep mode
+
+  // put the ADC to sleep and turn it back on 
+  loadcell.power_down();             
   delay(5000);
   loadcell.power_up();
 
 }
 
+
+// function that returns a integer 
+// purpose of the function is to read a string, that represents a number in binary
+// it returns the decimal value of it 
+
 int readBinaryString(char *s) {
-  int result = 0;
+  int result = 0; 
   while(*s) {
     result <<= 1;
     if(*s++ == '1') result |= 1;
   }
+  
+  // returns the result 
   return result;
 }
