@@ -1,4 +1,8 @@
+
+// importing the HX711 library 
 #include "HX711.h"
+
+// creates a HX771 object 
 HX711 loadcell;
 
 
@@ -13,6 +17,8 @@ float analval = 0;
 char buf[50]; 
 char otherBuf[50]; 
 
+
+ // function to run once at the start of the code 
 void setup(){
 Serial.begin(9600);
 loadcell.begin(DOUTpin, SCKpin);
