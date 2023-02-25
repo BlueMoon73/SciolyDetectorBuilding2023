@@ -38,11 +38,14 @@ void loop() {
   Serial.println(fsrVoltage, 4);  
   Serial.print("Predicted Mass:"); 
   fsrMass = predictMass(fsrVoltage);
+  if (fsrMass > 1000) { 
+    fsrMass = 990;
+  }
   Serial.println(fsrMass); 
 
   
 //  conditionals for determining LEDS to turn on.  
-  if (fsrMass < lowThreshold || fsrMass > HighThreshold){
+  if (fsrMass < lowThreshold || fsrMass > highThreshold){
     turnOffAll();
   }
  else if (fsrMass < lowRange){
@@ -76,12 +79,16 @@ void turnOffAll () {
 float predictMass(float voltage) {
 
   // formulas to convert voltage into grams, depending on the range of the voltage 
-if (voltage < 1.2) {  return pow(10, (0.6377551*voltage + 1.12818877)); }
+if (voltage < 0.01) { return 35;} 
 
-else if (voltage < 2.35) {return pow(10, (0.18188432*voltage + 1.58875954)); }
+else if (voltage < 1.4) {  return pow(10, (0.29904306*voltage + 1.61632775)); }
 
- else if (voltage < 4.1) {return pow(10, (0.37341299*voltage + 1.07318894)); }
+else if (voltage < 3.3) {return pow(10, (0.23089355*voltage + 1.61717848)); }
 
-else{ {return pow(10, (0.7800312*voltage -0.66357254));}
-}
+else if (voltage < 4.2) {return pow(10, (0.33579583*voltage + 1.28475486)) ; }
+
+else if (voltage < 4.5) {return pow(10, (0.712250 * voltage - 0.36356125)) +70; } 
+
+else {return pow(10, (1.50489089*voltage -3.90820165));}
+
 }
