@@ -29,7 +29,6 @@ Official repository for all code and logs for the Science Olympiad Detector Buil
 
 ## Team Details
  - School: Orlando Science High School 
- - Other Events: Wifi Lab, Remote Sensing, and Fermi Questions 
  - Partner: [Ismail A.](https://github.com/Ismailnotsus) 
  
 
