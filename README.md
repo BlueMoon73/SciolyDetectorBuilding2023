@@ -28,9 +28,7 @@ Official repository for all code and logs for the Science Olympiad Detector Buil
 
 
 ## Team Details
- - School: Orlando Science High School 
- - Partner: [Ismail A.](https://github.com/Ismailnotsus) 
- 
+ - School: Orlando Science High School  
 
 
 ## Links
