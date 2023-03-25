@@ -1,13 +1,14 @@
 int redLED = 6;
 int greenLED = 5; 
 int blueLED = 3;
-int FSRpin = 7; 
+int FSRpin = A1; 
 int fsrReading;   
 int fsrMVoltage; 
 float lowRange = 400; 
 float highRange = 700; 
 float fsrVoltage; 
 float fsrMass; 
+float fsrMass2; 
 float lowThreshold = 50; 
 float highThreshold = 900; 
 // setup function that runs once at the start of the code
@@ -26,7 +27,7 @@ void setup() {
 void loop() {
 
 //   gets the fsr reading (0-1023)
-  fsrReading = analogRead(A1); 
+  fsrReading = analogRead(FSRpin); 
   Serial.println("=====================");   
   Serial.print("Raw Reading:: ") ;
   Serial.println(fsrReading);   
@@ -36,12 +37,17 @@ void loop() {
   fsrVoltage = fsrMVoltage / 1000.000; 
   Serial.print("Voltage reading in ");
   Serial.println(fsrVoltage, 4);  
-  Serial.print("Predicted Mass:"); 
+  Serial.println("Predicted Mass:"); 
   fsrMass = predictMass(fsrVoltage);
+ 
   if (fsrMass > 1000) { 
     fsrMass = 990;
   }
   Serial.println(fsrMass); 
+   Serial.print("Predicted Mass2:"); 
+  fsrMass2 = predictMass2(fsrVoltage);
+    Serial.println(fsrMass2); 
+
 
   
 //  conditionals for determining LEDS to turn on.  
@@ -76,19 +82,42 @@ void turnOffAll () {
 }
 
 // return predicted mass based on voltage 
-float predictMass(float voltage) {
+float predictMass2(float voltage) {
 
   // formulas to convert voltage into grams, depending on the range of the voltage 
 if (voltage < 0.01) { return 35;} 
 
-else if (voltage < 1.4) {  return pow(10, (0.29904306*voltage + 1.61632775)); }
+else if (voltage < 1.4) {  return pow(10, (0.29904306*voltage + 1.61632775));  Serial.println("first cond");  
+ }
 
-else if (voltage < 3.3) {return pow(10, (0.23089355*voltage + 1.61717848)); }
+else if (voltage < 3.3) {return pow(10, (0.23089355*voltage + 1.61717848)); Serial.println("second cond");}
 
-else if (voltage < 4.2) {return pow(10, (0.33579583*voltage + 1.28475486)) ; }
+else if (voltage < 4.05) {return pow(10, (0.33579583*voltage + 1.28475486)) -90 ;Serial.println("third cond"); }
+else if (voltage < 4.2) {return pow(10, (0.33579583*voltage + 1.28475486)) -70 ;Serial.println("third cond"); }
 
-else if (voltage < 4.5) {return pow(10, (0.712250 * voltage - 0.36356125)) +70; } 
+else if (voltage < 4.5) {return pow(10, (0.712250 * voltage - 0.36356125)) +50; Serial.println("fourth cond");} 
 
 else {return pow(10, (1.50489089*voltage -3.90820165));}
 
 }
+
+float predictMass(float voltage){
+if (voltage < 0.01) { return 35;} 
+
+else if(voltage < 1.4) {
+return pow(10, (0.29904306*voltage + 1.61632775));  Serial.println("first cond");
+}
+
+else if (voltage < 3.3) {return pow(10, (0.23089355*voltage + 1.61717848)); Serial.println("second cond");}
+
+else if (voltage < 4.2) {return 10.677* pow(2.4792, voltage);}
+else if (voltage < 4.45) {return pow(10, (0.712250 * voltage - 0.36356125)) +50; Serial.println("fourth cond");} 
+
+else if (voltage < 4.55) {return pow(10, (0.712250 * voltage - 0.36356125)) +70; Serial.println("fourth cond");} 
+
+else if (voltage < 4.62) {return 0.02* pow(10.204, voltage);}
+else {return 990;}
+
+
+}
+
