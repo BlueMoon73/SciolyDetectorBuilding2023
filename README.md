@@ -1,5 +1,5 @@
 
-# Detector Building - Science Olympiad 2023
+# Detector Building - Science Olympiad 2023 (ARCHIVE) 
 
 Official repository for all code and logs for the Science Olympiad Detector Building Device portion of event. 
 
